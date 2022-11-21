@@ -13,6 +13,8 @@ import java.util.List;
 @Configuration
 public class JmsConfig {
 
+
+
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();

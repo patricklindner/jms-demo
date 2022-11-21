@@ -1,9 +1,14 @@
 package edu.eai.consumer;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.activemq.command.ActiveMQMessage;
+import org.apache.activemq.command.ActiveMQObjectMessage;
+import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
+
+import javax.jms.JMSException;
 
 @Component
 @ConditionalOnProperty(name = "mode", havingValue = "logger")
@@ -17,8 +22,8 @@ public class StringLoggerReceiver {
 //    }
 
     @JmsListener(destination = "results")
-    public void receiveResults(String message) {
-        log.info("Received message on topic results: {}", message);
+    public void receiveResults(ActiveMQTextMessage message) throws JMSException {
+        log.info("Received: {} from producer: {}", message.getText(), message.getProducerId().getConnectionId());
     }
 
 }

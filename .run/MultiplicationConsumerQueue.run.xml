@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="MultiplicationConsumerQueue" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="MultiplicationConsumerQueue1" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="jms-consumer" />
     <extension name="coverage">
       <pattern>
@@ -8,7 +8,7 @@
       </pattern>
     </extension>
     <option name="SPRING_BOOT_MAIN_CLASS" value="edu.eai.consumer.ConsumerMain" />
-    <option name="VM_PARAMETERS" value="-Dmode=multiplication -Dchannel=queue" />
+    <option name="VM_PARAMETERS" value="-Dmode=multiplication -Dchannel=queue -DclientId=multiplicationConsumer1" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method v="2">
       <option name="Make" enabled="true" />

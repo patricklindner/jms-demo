@@ -17,6 +17,7 @@
     <modules>
         <module>jms-producer</module>
         <module>jms-consumer</module>
+        <module>domain</module>
     </modules>
 
     <properties>
@@ -24,6 +25,15 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>edu.eai</groupId>
+                <artifactId>domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 </project>

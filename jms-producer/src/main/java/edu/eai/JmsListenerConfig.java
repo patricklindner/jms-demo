@@ -7,14 +7,16 @@ import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 
+import java.util.List;
+
 @Configuration
 public class JmsListenerConfig {
 
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
-        ActiveMQConnectionFactory activeMQConnectionFactory =
-                new ActiveMQConnectionFactory();
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
         activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
+        activeMQConnectionFactory.setTrustedPackages(List.of("edu.eai"));
         return activeMQConnectionFactory;
     }
 
@@ -33,7 +35,9 @@ public class JmsListenerConfig {
 
     @Bean
     public JmsTemplate jmsTemplate(CachingConnectionFactory cachingConnectionFactory) {
-        return new JmsTemplate(cachingConnectionFactory);
+        JmsTemplate jmsTemplate = new JmsTemplate(cachingConnectionFactory);
+        jmsTemplate.setPubSubDomain(true);
+        return jmsTemplate;
     }
 
 }

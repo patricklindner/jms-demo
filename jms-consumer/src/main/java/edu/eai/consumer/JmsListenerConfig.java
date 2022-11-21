@@ -6,16 +6,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 
+import java.util.List;
+
 @EnableJms
 @Configuration
 public class JmsListenerConfig {
 
     @Bean
     public ActiveMQConnectionFactory receiverActiveMQConnectionFactory() {
-        ActiveMQConnectionFactory activeMQConnectionFactory =
-                new ActiveMQConnectionFactory();
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
         activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
-
+        activeMQConnectionFactory.setTrustedPackages(List.of("edu.eai"));
         return activeMQConnectionFactory;
     }
 

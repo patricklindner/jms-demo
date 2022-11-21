@@ -1,6 +1,7 @@
 package edu.eai;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
@@ -10,7 +11,7 @@ import org.springframework.jms.core.JmsTemplate;
 import java.util.List;
 
 @Configuration
-public class JmsListenerConfig {
+public class JmsConfig {
 
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
@@ -26,7 +27,22 @@ public class JmsListenerConfig {
     }
 
     @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(ActiveMQConnectionFactory activeMQConnectionFactory) {
+    @ConditionalOnProperty(name = "channel", havingValue = "queue")
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryQueue(ActiveMQConnectionFactory activeMQConnectionFactory) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(activeMQConnectionFactory);
+        return factory;
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "channel", havingValue = "queue")
+    public JmsTemplate jmsTemplateQueue(CachingConnectionFactory cachingConnectionFactory) {
+        return new JmsTemplate(cachingConnectionFactory);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "channel", havingValue = "topic")
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryTopic(ActiveMQConnectionFactory activeMQConnectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(activeMQConnectionFactory);
         factory.setPubSubDomain(true);
@@ -34,7 +50,8 @@ public class JmsListenerConfig {
     }
 
     @Bean
-    public JmsTemplate jmsTemplate(CachingConnectionFactory cachingConnectionFactory) {
+    @ConditionalOnProperty(name = "channel", havingValue = "topic")
+    public JmsTemplate jmsTemplateTopic(CachingConnectionFactory cachingConnectionFactory) {
         JmsTemplate jmsTemplate = new JmsTemplate(cachingConnectionFactory);
         jmsTemplate.setPubSubDomain(true);
         return jmsTemplate;

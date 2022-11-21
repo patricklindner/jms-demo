@@ -1,6 +1,7 @@
 package edu.eai.consumer;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @EnableJms
 @Configuration
-public class JmsListenerConfig {
+public class JmsConfig {
 
     @Bean
     public ActiveMQConnectionFactory receiverActiveMQConnectionFactory() {
@@ -21,7 +22,17 @@ public class JmsListenerConfig {
     }
 
     @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
+    @ConditionalOnProperty(name = "channel", havingValue = "queue")
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryQueue() {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(receiverActiveMQConnectionFactory());
+        factory.setPubSubDomain(true);
+        return factory;
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "channel", havingValue = "topic")
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryTopic() {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(receiverActiveMQConnectionFactory());
         factory.setPubSubDomain(true);

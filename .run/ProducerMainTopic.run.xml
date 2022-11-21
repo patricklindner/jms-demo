@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ProducerMainTopic" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="ProducerTopic" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="jms-producer" />
     <extension name="coverage">
       <pattern>

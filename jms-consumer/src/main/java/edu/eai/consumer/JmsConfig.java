@@ -14,27 +14,27 @@ import java.util.List;
 public class JmsConfig {
 
     @Bean
-    public ActiveMQConnectionFactory receiverActiveMQConnectionFactory() {
+    public ActiveMQConnectionFactory activeMQConnectionFactory() {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
         activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
         activeMQConnectionFactory.setTrustedPackages(List.of("edu.eai"));
         return activeMQConnectionFactory;
     }
 
-    @Bean
+    @Bean("jmsListenerContainerFactory")
     @ConditionalOnProperty(name = "channel", havingValue = "queue")
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryQueue() {
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryQueue(ActiveMQConnectionFactory activeMQConnectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setConnectionFactory(receiverActiveMQConnectionFactory());
+        factory.setConnectionFactory(activeMQConnectionFactory);
         factory.setPubSubDomain(true);
         return factory;
     }
 
-    @Bean
+    @Bean("jmsListenerContainerFactory")
     @ConditionalOnProperty(name = "channel", havingValue = "topic")
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryTopic() {
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryTopic(ActiveMQConnectionFactory activeMQConnectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setConnectionFactory(receiverActiveMQConnectionFactory());
+        factory.setConnectionFactory(activeMQConnectionFactory);
         factory.setPubSubDomain(true);
         return factory;
     }

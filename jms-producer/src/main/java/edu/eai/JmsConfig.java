@@ -26,7 +26,7 @@ public class JmsConfig {
         return new CachingConnectionFactory(activeMQConnectionFactory);
     }
 
-    @Bean
+    @Bean("jmsListenerContainerFactory")
     @ConditionalOnProperty(name = "channel", havingValue = "queue")
     public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryQueue(ActiveMQConnectionFactory activeMQConnectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
@@ -34,13 +34,7 @@ public class JmsConfig {
         return factory;
     }
 
-    @Bean
-    @ConditionalOnProperty(name = "channel", havingValue = "queue")
-    public JmsTemplate jmsTemplateQueue(CachingConnectionFactory cachingConnectionFactory) {
-        return new JmsTemplate(cachingConnectionFactory);
-    }
-
-    @Bean
+    @Bean("jmsListenerContainerFactory")
     @ConditionalOnProperty(name = "channel", havingValue = "topic")
     public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryTopic(ActiveMQConnectionFactory activeMQConnectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
@@ -49,12 +43,19 @@ public class JmsConfig {
         return factory;
     }
 
-    @Bean
+    @Bean("jmsTemplate")
+    @ConditionalOnProperty(name = "channel", havingValue = "queue")
+    public JmsTemplate jmsTemplateQueue(CachingConnectionFactory cachingConnectionFactory) {
+        return new JmsTemplate(cachingConnectionFactory);
+    }
+
+    @Bean("jmsTemplate")
     @ConditionalOnProperty(name = "channel", havingValue = "topic")
     public JmsTemplate jmsTemplateTopic(CachingConnectionFactory cachingConnectionFactory) {
         JmsTemplate jmsTemplate = new JmsTemplate(cachingConnectionFactory);
         jmsTemplate.setPubSubDomain(true);
         return jmsTemplate;
     }
+
 
 }

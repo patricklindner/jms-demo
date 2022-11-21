@@ -7,18 +7,16 @@ services:
     ports:
       - "8161:8161"
 
-  # producer:
-  #   build: producer.Dockerfile
+  producer:
+    build: producer.Dockerfile
 
-  # adder:
-  #   build: subscriber.Dockerfile
-  #   environment:
-  #     MODE: 0
+  adder:
+    build: consumer.Dockerfile
+    environment:
+      MODE: ADDITION
 
-  # multer:
-  #   build: subscriber.Dockerfile
-  #   environment:
-  #     MODE: 1
-
-
+  multer:
+    build: subscriber.Dockerfile
+    environment:
+      MODE: MULTIPLICATION
 

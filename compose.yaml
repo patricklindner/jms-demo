@@ -1,0 +1,24 @@
+services:
+
+  activemq:
+    build: 
+      context: .
+      dockerfile: activemq.Dockerfile
+    ports:
+      - "8161:8161"
+
+  # producer:
+  #   build: producer.Dockerfile
+
+  # adder:
+  #   build: subscriber.Dockerfile
+  #   environment:
+  #     MODE: 0
+
+  # multer:
+  #   build: subscriber.Dockerfile
+  #   environment:
+  #     MODE: 1
+
+
+

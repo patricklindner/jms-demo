@@ -18,7 +18,7 @@ public class AdditionReceiver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdditionReceiver.class);
 
-    @JmsListener(destination = "numbers")
+    @JmsListener(destination = "numbers", subscription = "durableAdder")
     @SendTo("results")
     public String receive(NumberMessage message) {
         LOGGER.info("Adding numbers: {} + {}", message.getNumber1(), message.getNumber2());

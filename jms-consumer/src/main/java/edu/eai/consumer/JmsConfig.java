@@ -51,4 +51,16 @@ public class JmsConfig {
         return factory;
     }
 
+    @Bean("jmsListenerContainerFactory")
+    @ConditionalOnProperty(name = "channel", havingValue = "durableTopic")
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactoryDurableTopic(ActiveMQConnectionFactory activeMQConnectionFactory) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(activeMQConnectionFactory);
+        factory.setPubSubDomain(true);
+        factory.setSubscriptionDurable(true);
+        return factory;
+    }
+
+
+
 }

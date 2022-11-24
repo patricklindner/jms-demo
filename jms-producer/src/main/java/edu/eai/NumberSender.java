@@ -15,10 +15,6 @@ public class NumberSender {
 
     private final JmsTemplate jmsTemplate;
 
-    public void send(String test) {
-        jmsTemplate.convertAndSend("testTopic", test);
-    }
-
     public void send(NumberMessage message) {
         LOGGER.info("sending message='{}'", message);
         jmsTemplate.convertAndSend("numbers", message);
